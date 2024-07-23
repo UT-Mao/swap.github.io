@@ -6,7 +6,7 @@
         content="The Lottery Ticket Hypothesis in Denoising: Towards Semantic-Driven Initialization">
   <meta name="keywords" content="Diffusion Model, Initial Noise, Layout-to-Image">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Lottery Ticket Hypothesis in Denoising: Towards Semantic-Driven Initialization</title>
+  <title>Guided Image Synthesis via Initial Image Editing in Diffusion Model</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
@@ -34,20 +34,20 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">The Lottery Ticket Hypothesis in Denoising: Towards Semantic Driven Initialization</h1>
+          <h1 class="title is-1 publication-title">Guided Image Synthesis via Initial Image Editing in Diffusion Model</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://ut-mao.github.io/">Jiafeng Mao</a><sup>1,2</sup>,</span>
+              <a href="https://ut-mao.github.io/">Jiafeng Mao</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="hhttps://xueting-wang.github.io/">Xueting Wang</a><sup>1</sup>,</span>
+              <a href="hhttps://xueting-wang.github.io/">Xueting Wang</a><sup>2</sup>,</span>
             <span class="author-block">
-              <a href="https://www.hal.t.u-tokyo.ac.jp/lab/ja/index_1.xhtml">Kiyoharu Aizawa</a><sup>2</sup>,
+              <a href="https://www.hal.t.u-tokyo.ac.jp/lab/ja/index_1.xhtml">Kiyoharu Aizawa</a><sup>1</sup>,
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>CyberAgent,</span>
-            <span class="author-block"><sup>2</sup>The University of Tokyo</span>
+            <span class="author-block"><sup>1</sup>The University of Tokyo,</span>
+            <span class="author-block"><sup>2</sup>CyberAgent</span>
           </div>
 
           <div class="column has-text-centered">
@@ -92,12 +92,9 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img id="teaser" src="./static/images/concept.png" alt="Image">
+      <img id="teaser" src="./static/images/fig_0.png" alt="Image">
       <h2 class="subtitle has-text-centered">
-        The concept of the <span class="dnerf">Winning Tickets</span> (special noisy pixel blocks) in denoising. 
-        These pixel blocks are naturally susceptible to being denoised to specific concepts. 
-        <span class="dnerf">Winning Tickets</span> collected from different images can be used to create 
-        new noise and show significant advantages under different prompts.
+        In this study, we investigate the impact of the initial image on image generation and propose a novel direction for controlling the generation process by manipulating the initial random noise. We present two direct applications of our findings: generated image re-painting and layout-to-image synthesis. Generated image re-painting allows users to modify a part of the generated image while preserving most of it. Layout-to-image synthesis requires generating objects in user-specified regions.
       </h2>
     </div>
   </div>
@@ -113,91 +110,89 @@
         <div class="content has-text-justified">
           
           <p>
-            Text-to-image diffusion models allow users control over the content of generated images. 
-            Still, text-to-image generation occasionally leads 
-            to generation failure requiring users to generate dozens of images 
-            under the same text prompt before they obtain a satisfying result.
-          </p>
-          <p>
-            We formulate the lottery ticket hypothesis in denoising: 
-            randomly initialized Gaussian noise images contain special pixel blocks (winning tickets) that 
-            naturally tend to be denoised into specific content independently. 
-            The generation failure in standard text-to-image synthesis is caused by the gap 
-            between optimal and actual spatial distribution of winning tickets in initial noisy images. 
-            To this end, we implement semantic-driven initial image construction creating initial noise 
-            from known winning tickets for each concept mentioned in the prompt.
-          </p>
-          <p>
-            We conduct a series of experiments that verify the properties of winning tickets and demonstrate their 
-            generalizability across images and prompts. Our results show that aggregating winning tickets into the 
-            initial noise image effectively induce the model to generate the specified object at the corresponding 
-            location. 
+            Diffusion models have the ability to generate high quality images by denoising pure Gaussian noise images. 
+            While previous research has primarily focused on improving the control of image generation through adjusting 
+            the denoising process, we propose a novel direction of manipulating the initial noise to control the generated image. 
+            Through experiments on stable diffusion, we show that blocks of pixels in the initial latent images have a preference 
+            for generating specific content, and that modifying these blocks can significantly influence the generated image. 
+            In particular, we show that modifying a part of the initial image affects the corresponding region of the generated 
+            image while leaving other regions unaffected, which is useful for repainting tasks. Furthermore, 
+            we find that the generation preferences of pixel blocks are primarily determined by their values, 
+            rather than their position. By moving pixel blocks with a tendency to generate user-desired content to 
+            user-specified regions, our approach achieves state-of-the-art performance in layout-to-image generation. 
+            Our results highlight the flexibility and power of initial image manipulation in controlling the generated image.
           </p>
 
-        <h2 class="title is-3"><span class="dnerf">The Lottery Ticket Hypothesis in Denoising</span></h2>  
+        <h2 class="title is-3"><span class="dnerf">Generation Tendency of Initial Image</span></h2>  
+        <img id="teaser" src="./static/images/method_1.png" alt="Image">
         <p>
-          In this paper, we unveil the existence of migratable pixel blocks in the initial random Gaussian noise that are 
-          independently associated with certain concepts. we term our findings in this paper as <span class="dnerf">the Lottery Ticket Hypothesis in Denoising:</span>
+          We first conduct experiments to check the generation tendency of initial images. 
+          Specifically, we create a list of categories and then select two different categories, 
+          <span class="dnerf">Cls1</span> and <span class="dnerf">Cls2</span>, from it to construct prompts for generation. 
+          The prompt takes the form of "A <span class="dnerf">Cls1</span> and a <span class="dnerf">Cls2</span>" (e.g. a dog and a car). 
+          We use fixed random initial images and a 
+          model with fixed parameters to generate each constructed prompt and observe the generation performance of the 
+          same initialization image guided by different prompts. When the same object is mentioned in different prompts, 
+          there is a high probability that this object will be generated in the same location and have a very similar visual 
+          appearance. 
         </p>
 
-        <p style="text-align: center">
-          <br/><big>
-          <i style="color: rgb(211, 62, 144)" >
-            Randomly-initialized noise images contain pixel blocks with initial values that allow them to be used to generate specific concepts.
-          </i>
-          </big>
+        <h2 class="title is-3"><span class="dnerf">Generated Image Re-painting</span></h2>  
+        
+        <p>
+          A critical factor contributing to the failure of image generation is the 
+          inconsistency between the initial noise image's generation tendency and the user-provided prompts. 
+          For instance, if a user intends to generate two objects close to each other, 
+          but the two regions that tend to generate these objects are far apart in the randomly generated initial image, 
+          the model will fail to generate the desired content based on such an initial image.
         </p>
+        <img id="teaser" src="./static/images/method_2.png" alt="Image">
 
-        <p>Properties of the winning tickets:</p>
-        <ul>
-          <li>Transplanting winning tickets from their original initial noise to a new noise image does not change the concept <i>c</i> that these winning tickets can be easily denoised to.</li>
-          <li>The winning tickets for concept <i>c</i> still win under different prompts containing the same concept <i>c</i>.</li>
-        </ul>
-
-
-
+        <p>
+        Therefore, an intuitive idea to avoid image generation failure is to remove the part of the tendency that 
+        conflicts with the prompt. First, we generate an image using prompt and a randomly sampled initialized image. 
+        We then identify regions in the generated image that did not match the description or did not make sense. 
+        We re-randomize the regions in the initialized image corresponding to the failure regions while keeping the 
+        values of the other regions. We use the partially re-randomized initial noise image to perform 
+        the generation again, under the same prompt, and observe the generated image. 
+        This experiment is straightforward and intuitive yet shows a significant effect. Using the partially re-randomized 
+        initial image achieves spontaneous regeneration of only the specified regions while keeping the other 
+        regions of the image almost unchanged. 
+        </p>
+        <p>
+        This result shows that the generation tendencies of each region in the initialized image are relatively independent, 
+        and changing a small part of the initialized image does not affect the generation tendencies of the remaining part. 
+        This experiment implies that by editing the initialized image, we can potentially influence the image generation 
+        results in a directional and controlled manner.
+        </p>
+        <img id="teaser" src="./static/images/task_1.png" alt="Image">
           
 
         
 
-        <h2 class="title is-3"><span class="dnerf">SEMantic-driven Initialization</span></h2>
+        <h2 class="title is-3"><span class="dnerf">Layout-to-Image Synthesis</span></h2>
         <p>
-          With a given list of possible categories, our method collects pixel blocks (<span class="dnerf">Lottery Tickets</span> without knowing if they won) along with 
-          their category-wise similarity from a huge amount of random noisy images. 
+          We use the attention map of the initial noise image to indicate the initial generation tendency. 
+          Subsequently, we move the pixel blocks that tend to generate specific content into specified regions, 
+          and the modified noise image is used to perform denoising as usual.
         </p>
-        <img id="teaser" src="./static/images/collect.png" alt="Image">
+        <img id="teaser" src="./static/images/method_3.png" alt="Image">
         <p>
-          For a prompt and specified locations of each object given by the user, 
-          we construct the corresponding area in the initial image by the winning tickets for the corresponding concept, 
-          as illustrated in the following figure. We randomly select the number of pixel blocks needed to construct the specified 
-          region from the filtered winning tickets and randomly fill the corresponding region with these selected winning tickets. 
-          We refer to this process as <span class="dnerf">SEMantic-driven Initialization</span> (SemI) as we construct the initial 
-          noise using winning tickets with recognized semantic information. After that, we use the pre-trained diffusion model to denoise our constructed initial noise normally.
+          Our method achieves a comparable performance with state-of-the-art methods when used alone, 
+          and combining our method with them achieves the best performance on all subsets.
         </p>
 
-        <img id="teaser" src="./static/images/select.png" alt="Image">
-        <h2 class="title is-3"><span class="dnerf">Results & Analysis</span></h2>
-        <p>
-        Constructing initial noise solely through the utilization of winning tickets achieves a control effectiveness comparable to existing layout-to-image methods, and incorporating winning tickets alongside them significantly enhances their performance.
-        The successful generation and the ability to exert control through utilizing winning tickets are enlightening for three significant reasons as follows:  
-      </p>
-      <ul>
-        <li>Tolerance for non-Gaussian Initial Images: All of the initial images used for denoising in our methods are constructed and do not adhere to the Gaussian distribution. According to our results, most of the images generated from non-normal initial images still exhibit high quality while being effectively guided.</li>
-        <li>Versatility of Winning Tickets over Prompt: In our experiment, we create a collection in advance by simply accepting a list of possible categories, without knowing the specific prompts that the generation uses. According to our evaluation, winning tickets evaluated under simple prompts can generate objects in various prompts efficiently.</li>
-        <li>Versatility of Winning Tickets over Image: Our results confirm the versatility of winning tickets across different initial images.  Whether a pixel block can be a winning ticket is determined by its initial pixel values. winning tickets from one image will win again when transferred to another image.</li>
-      </ul>
+        
+
 
         <h2 class="title is-3"><span class="dnerf">Visual Samples</span></h2>
 
-        <img id="teaser" src="./static/images/moons.png" alt="Image">
-        <img id="teaser" src="./static/images/sunglasses.png" alt="Image">
-        <img id="teaser" src="./static/images/car.png" alt="Image">
-        <img id="teaser" src="./static/images/sky.png" alt="Image">
+        <img id="teaser" src="./static/images/vis.png" alt="Image">
 
         <h2 class="title is-3"><span class="dnerf">Related Links</span></h2>
           <div class="content has-text-justified">
             <p>
-              This work is an extension of <a href="https://arxiv.org/abs/2305.03382">Guided Image Synthesis via Initial Image Editing in Diffusion Model [ACM MM 2023]</a>, which is the first work to introduce the concept of initial noise editing.
+              <a href="https://arxiv.org/abs/2305.03382">The Lottery Ticket Hypothesis in Denoising [ECCV 2024]</a> is an extension of this work.
             </p>
           </div>
         </div>
@@ -210,11 +205,11 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{mao2024theLottery,
+    <pre><code>@article{mao2023Guided,
   author    = {Jiafeng Mao, Xueting Wang and Kiyoharu Aizawa},
-  title     = {The Lottery Ticket Hypothesis in Denoising: Towards Semantic-Driven Initialization},
-  journal   = {ECCV},
-  year      = {2024},
+  title     = {Guided Image Synthesis via Initial Image Editing in Diffusion Model},
+  journal   = {ACM MM},
+  year      = {2023},
 }</code></pre>
   </div>
 </section>
