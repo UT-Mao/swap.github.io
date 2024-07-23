@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="The Lottery Ticket Hypothesis in Denoising: Towards Semantic-Driven Initialization">
+  <meta name="keywords" content="Diffusion Model, Initial Noise, Layout-to-Image">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Lottery Ticket Hypothesis in Denoising: Towards Semantic-Driven Initialization</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+  
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">The Lottery Ticket Hypothesis in Denoising: Towards Semantic Driven Initialization</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://ut-mao.github.io/">Jiafeng Mao</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a href="hhttps://xueting-wang.github.io/">Xueting Wang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.hal.t.u-tokyo.ac.jp/lab/ja/index_1.xhtml">Kiyoharu Aizawa</a><sup>2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>CyberAgent,</span>
+            <span class="author-block"><sup>2</sup>The University of Tokyo</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2312.08872"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2312.08872"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. 
+              
+              <span class="link-block">
+                <a href="https://github.com/UT-Mao/Initial-Image-Editing"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img id="teaser" src="./static/images/concept.png" alt="Image">
+      <h2 class="subtitle has-text-centered">
+        The concept of the <span class="dnerf">Winning Tickets</span> (special noisy pixel blocks) in denoising. 
+        These pixel blocks are naturally susceptible to being denoised to specific concepts. 
+        <span class="dnerf">Winning Tickets</span> collected from different images can be used to create 
+        new noise and show significant advantages under different prompts.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered">
+      <div class="column is-full-widthy">
+        <h2 class="title is-3"><span class="dnerf">Abstract</span></h2>
+        <div class="content has-text-justified">
+          
+          <p>
+            Text-to-image diffusion models allow users control over the content of generated images. 
+            Still, text-to-image generation occasionally leads 
+            to generation failure requiring users to generate dozens of images 
+            under the same text prompt before they obtain a satisfying result.
+          </p>
+          <p>
+            We formulate the lottery ticket hypothesis in denoising: 
+            randomly initialized Gaussian noise images contain special pixel blocks (winning tickets) that 
+            naturally tend to be denoised into specific content independently. 
+            The generation failure in standard text-to-image synthesis is caused by the gap 
+            between optimal and actual spatial distribution of winning tickets in initial noisy images. 
+            To this end, we implement semantic-driven initial image construction creating initial noise 
+            from known winning tickets for each concept mentioned in the prompt.
+          </p>
+          <p>
+            We conduct a series of experiments that verify the properties of winning tickets and demonstrate their 
+            generalizability across images and prompts. Our results show that aggregating winning tickets into the 
+            initial noise image effectively induce the model to generate the specified object at the corresponding 
+            location. 
+          </p>
+
+        <h2 class="title is-3"><span class="dnerf">The Lottery Ticket Hypothesis in Denoising</span></h2>  
+        <p>
+          In this paper, we unveil the existence of migratable pixel blocks in the initial random Gaussian noise that are 
+          independently associated with certain concepts. we term our findings in this paper as <span class="dnerf">the Lottery Ticket Hypothesis in Denoising:</span>
+        </p>
+
+        <p style="text-align: center">
+          <br/><big>
+          <i style="color: rgb(211, 62, 144)" >
+            Randomly-initialized noise images contain pixel blocks with initial values that allow them to be used to generate specific concepts.
+          </i>
+          </big>
+        </p>
+
+        <p>Properties of the winning tickets:</p>
+        <ul>
+          <li>Transplanting winning tickets from their original initial noise to a new noise image does not change the concept <i>c</i> that these winning tickets can be easily denoised to.</li>
+          <li>The winning tickets for concept <i>c</i> still win under different prompts containing the same concept <i>c</i>.</li>
+        </ul>
+
+
+
+          
+
+        
+
+        <h2 class="title is-3"><span class="dnerf">SEMantic-driven Initialization</span></h2>
+        <p>
+          With a given list of possible categories, our method collects pixel blocks (<span class="dnerf">Lottery Tickets</span> without knowing if they won) along with 
+          their category-wise similarity from a huge amount of random noisy images. 
+        </p>
+        <img id="teaser" src="./static/images/collect.png" alt="Image">
+        <p>
+          For a prompt and specified locations of each object given by the user, 
+          we construct the corresponding area in the initial image by the winning tickets for the corresponding concept, 
+          as illustrated in the following figure. We randomly select the number of pixel blocks needed to construct the specified 
+          region from the filtered winning tickets and randomly fill the corresponding region with these selected winning tickets. 
+          We refer to this process as <span class="dnerf">SEMantic-driven Initialization</span> (SemI) as we construct the initial 
+          noise using winning tickets with recognized semantic information. After that, we use the pre-trained diffusion model to denoise our constructed initial noise normally.
+        </p>
+
+        <img id="teaser" src="./static/images/select.png" alt="Image">
+        <h2 class="title is-3"><span class="dnerf">Results & Analysis</span></h2>
+        <p>
+        Constructing initial noise solely through the utilization of winning tickets achieves a control effectiveness comparable to existing layout-to-image methods, and incorporating winning tickets alongside them significantly enhances their performance.
+        The successful generation and the ability to exert control through utilizing winning tickets are enlightening for three significant reasons as follows:  
+      </p>
+      <ul>
+        <li>Tolerance for non-Gaussian Initial Images: All of the initial images used for denoising in our methods are constructed and do not adhere to the Gaussian distribution. According to our results, most of the images generated from non-normal initial images still exhibit high quality while being effectively guided.</li>
+        <li>Versatility of Winning Tickets over Prompt: In our experiment, we create a collection in advance by simply accepting a list of possible categories, without knowing the specific prompts that the generation uses. According to our evaluation, winning tickets evaluated under simple prompts can generate objects in various prompts efficiently.</li>
+        <li>Versatility of Winning Tickets over Image: Our results confirm the versatility of winning tickets across different initial images.  Whether a pixel block can be a winning ticket is determined by its initial pixel values. winning tickets from one image will win again when transferred to another image.</li>
+      </ul>
+
+        <h2 class="title is-3"><span class="dnerf">Visual Samples</span></h2>
+
+        <img id="teaser" src="./static/images/moons.png" alt="Image">
+        <img id="teaser" src="./static/images/sunglasses.png" alt="Image">
+        <img id="teaser" src="./static/images/car.png" alt="Image">
+        <img id="teaser" src="./static/images/sky.png" alt="Image">
+
+        <h2 class="title is-3"><span class="dnerf">Related Links</span></h2>
+          <div class="content has-text-justified">
+            <p>
+              This work is an extension of <a href="https://arxiv.org/abs/2305.03382">Guided Image Synthesis via Initial Image Editing in Diffusion Model [ACM MM 2023]</a>, which is the first work to introduce the concept of initial noise editing.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{mao2024theLottery,
+  author    = {Jiafeng Mao, Xueting Wang and Kiyoharu Aizawa},
+  title     = {The Lottery Ticket Hypothesis in Denoising: Towards Semantic-Driven Initialization},
+  journal   = {ECCV},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+        <div class="content">
+          <p>
+            We thank the authors of <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> that kindly open sourced the template of this website.
+          </p>
+        </div>
+      </div>
+  </div>
+</footer>
+
+
+
+</body>
+</html>
